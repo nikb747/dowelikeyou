@@ -3,7 +3,6 @@
 <table>
   <tr>
     <th>Status</th>
-    <th>Time</th>
     <th>User</th>
     <th></th>
     <th></th>
@@ -13,7 +12,6 @@
 <% @impressions.each do |impression| %>
   <tr>
     <td><%= impression.status %></td>
-    <td><%= impression.time %></td>
     <td><%= impression.user_id %></td>
     <td><%= link_to 'Show', impression %></td>
     <td><%= link_to 'Edit', edit_impression_path(impression) %></td>

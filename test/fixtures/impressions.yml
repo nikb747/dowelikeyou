@@ -2,10 +2,8 @@
 
 one:
   status: MyString
-  time: 2012-03-03 17:16:02
   user_id: 1
 
 two:
   status: MyString
-  time: 2012-03-03 17:16:02
   user_id: 1

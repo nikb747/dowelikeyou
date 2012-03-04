@@ -10,11 +10,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120303231602) do
+ActiveRecord::Schema.define(:version => 20120304010732) do
 
   create_table "impressions", :force => true do |t|
     t.string   "status"
-    t.datetime "time"
     t.integer  "user_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -22,7 +21,6 @@ ActiveRecord::Schema.define(:version => 20120303231602) do
 
   create_table "users", :force => true do |t|
     t.string   "name"
-    t.datetime "createdOn"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

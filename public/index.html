@@ -4,8 +4,9 @@
 <script type="text/javascript" src="./js/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="./js/cookies.js"></script>
 <script type="text/javascript">
+var userId = null;
 $(window).load(function () {
-	var userId = readCookie("userIdCookie");
+	userId = readCookie("userIdCookie");
 	if (userId == null || userId == "") {
 		createNewUser();
 	} else {
@@ -38,23 +39,69 @@ function createNewUser() {
 function setUpForUser(userName, userId) {
 	$("#userHeader").html("User #" + userId + " : " + userName);
 	$("#editLink").attr("href", "/users/" + userId + "/edit");
+	$(".initView").hide();
+	$(".mainView").show();
+	userId = userId;
 }
 function clearUser() {
 	createCookie("userIdCookie", "", 0);
   	return false;
 }
+function submitImpression(message) {
+	$.ajax({ 
+		url: "/impressions",
+		type: "POST",
+		data: {impression : {status: message, user_id: userId}},
+  		dataType: "json"
+  	}).done(function(data) {
+  		alert(data.id + " : " + " status=" + data.status + " userId=" + data.user_id); 
+	}).fail(function() { 
+		alert("error"); 
+	});
+}
 </script>
 <style type="text/css">
 	body>div {
 		width: 100%;
+		text-align: center;
+	}
+	#startingDisplay {
+		height: 5%;
+	}
+	#userHeader {
+		height: 5%;
+	}
+	#impressionsButtons {
+		height: 90%;
+	}
+	#admininstrativeLinks {
+		height: 5%;
+	}
+	.mainView {
+		display: none;
+	}
+	.mainButtons {
+		width: 38%;
+		height: 100%;
+		border: 1px solid #000000;
+		text-align: center;
+		padding: auto;
+		float: left;
+	}
+	#neutralButton {
+		width: 23%;
 	}
 </style>
 </head>
 <body>
-	<div id="startingDisplay">Checking for user info....</div>
-	<div id="userHeader">&nbsp;</div>
-	<div id="impressionsButtons">Buttons</div>
-	<div id="admininstrativeLinks">
+	<div id="startingDisplay" class="initView">Checking for user info....</div>
+	<div id="userHeader" class="mainView">&nbsp;</div>
+	<div id="impressionsButtons" class="mainView">
+		<div id="yesButton" class="mainButtons" onclick="submitImpression('YES');">Yes</div>
+		<div id="neutralButton" class="mainButtons" onclick="submitImpression('NEUTRAL');">Neutral</div>
+		<div id="noButton" class="mainButtons" onclick="submitImpression('NO');">No</div>
+	</div>
+	<div id="admininstrativeLinks" class="mainView">
 		<a id="editLink" href="/users/?">Edit my info</a>
 		|
 		<a href="javascript:clearUser();">Clear Cookies</a>

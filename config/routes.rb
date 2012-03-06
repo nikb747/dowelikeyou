@@ -2,6 +2,9 @@ Dowelikeyou::Application.routes.draw do
   resources :impressions
 
   resources :users
+  
+  match 'graph/' => 'graph#index'
+  match 'graph/impressions' => 'graph#impressions'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -1,3 +1,3 @@
 class User < ActiveRecord::Base
-	has_many :impressions
+	has_many :impression
 end

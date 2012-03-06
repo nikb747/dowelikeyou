@@ -2,16 +2,25 @@
 <head>
 <title>For Specific Users Only</title>
 <script type="text/javascript" src="./js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="./js/jquery-ui-1.8.18.custom.min.js"></script>
 <script type="text/javascript" src="./js/cookies.js"></script>
 <script type="text/javascript">
-var userId = null;
 $(window).load(function () {
-	userId = readCookie("userIdCookie");
-	if (userId == null || userId == "") {
+	var existingUserId = readCookie("userIdCookie");
+	if (existingUserId == null || existingUserId == "") {
 		createNewUser();
 	} else {
-		readUserById(userId);
+		readUserById(existingUserId);
 	}
+});
+function repositionBackgrounds() {
+	var offset = $("#yesButton").width() % 58;
+	$("#neutralButton").css("background", "url('./images/background_maybe.png') -" + offset +"px 0");
+	offset = ($("#neutralButton").width() + offset) % 58;
+	$("#noButton").css("background", "url('./images/background_no.png') -" + offset +"px 0");
+}
+$(window).resize(function() {
+	repositionBackgrounds();
 });
 function readUserById(userId) {
 	$.ajax({ 
@@ -41,7 +50,7 @@ function setUpForUser(userName, userId) {
 	$("#editLink").attr("href", "/users/" + userId + "/edit");
 	$(".initView").hide();
 	$(".mainView").show();
-	userId = userId;
+	repositionBackgrounds();
 }
 function clearUser() {
 	createCookie("userIdCookie", "", 0);
@@ -51,16 +60,26 @@ function submitImpression(message) {
 	$.ajax({ 
 		url: "/impressions",
 		type: "POST",
-		data: {impression : {status: message, user_id: userId}},
+		data: {impression : {status: message, user_id: readCookie("userIdCookie")}},
   		dataType: "json"
   	}).done(function(data) {
-  		alert(data.id + " : " + " status=" + data.status + " userId=" + data.user_id); 
+  		$("body").effect("highlight", {}, 1000);
 	}).fail(function() { 
 		alert("error"); 
 	});
 }
 </script>
 <style type="text/css">
+	body {
+		background-color: black;
+		color: white;
+		font-family: Arial, Verdana, Helvetica;
+		font-size: 10px;
+		font-weight: bold;
+	}
+	a {
+		color: white;
+	}
 	body>div {
 		width: 100%;
 		text-align: center;
@@ -81,15 +100,21 @@ function submitImpression(message) {
 		display: none;
 	}
 	.mainButtons {
-		width: 38%;
+		width: 35%;
 		height: 100%;
-		border: 1px solid #000000;
 		text-align: center;
 		padding: auto;
 		float: left;
 	}
 	#neutralButton {
-		width: 23%;
+		width: 29%;
+		background: url('./images/background_maybe.png');
+	}
+	#yesButton {
+		background: url('./images/background_yes.png');
+	}
+	#noButton {
+		background: url('./images/background_no.png');
 	}
 </style>
 </head>
@@ -97,9 +122,9 @@ function submitImpression(message) {
 	<div id="startingDisplay" class="initView">Checking for user info....</div>
 	<div id="userHeader" class="mainView">&nbsp;</div>
 	<div id="impressionsButtons" class="mainView">
-		<div id="yesButton" class="mainButtons" onclick="submitImpression('YES');">Yes</div>
-		<div id="neutralButton" class="mainButtons" onclick="submitImpression('NEUTRAL');">Neutral</div>
-		<div id="noButton" class="mainButtons" onclick="submitImpression('NO');">No</div>
+		<div id="yesButton" class="mainButtons" onclick="submitImpression('YES');">&nbsp;</div>
+		<div id="neutralButton" class="mainButtons" onclick="submitImpression('NEUTRAL');">&nbsp;</div>
+		<div id="noButton" class="mainButtons" onclick="submitImpression('NO');">&nbsp;</div>
 	</div>
 	<div id="admininstrativeLinks" class="mainView">
 		<a id="editLink" href="/users/?">Edit my info</a>

@@ -5,16 +5,7 @@ class GraphController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render :json => @impressions }
-    end
-  end
-  def impressions
-    #@impressions = Impression.all
-    @impressions = Impression.where("created_at > ?", 4.hours.ago).order("created_at ASC")
-
-    respond_to do |format|
-      format.html
-      format.json { render :json => @impressions }
+      format.json { render :json => @impressions.as_json }
     end
   end
 end

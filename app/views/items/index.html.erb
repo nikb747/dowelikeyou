@@ -30,26 +30,22 @@ tr.isComplete_true {
   </tr>
 
 <% @items.each do |item| %>
-  <tr class="isComplete_<%= !item.blackMap.empty? && !item.blueMap.empty? && !item.greenMap.empty? %> isBeingWorkedOn_<%= !item.workedOnBy.nil? && !item.workedOnBy.empty? %>">
+  <tr class="isComplete_<%= !item.blackMap.nil? && !item.blueMap.nil? && !item.greenMap.nil? && !item.blackMap.empty? && !item.blueMap.empty? && !item.greenMap.empty? %> isBeingWorkedOn_<%= !item.workedOnBy.nil? && !item.workedOnBy.empty? %>">
     <td><img src="/images/thumbnails/<%= item.key %>.jpg" height="125" width="110"/></td>
-    <td><% if item.blackMap.empty? %>
+    <td><% if item.blackMap.nil? || item.blackMap.empty? %>
         Still needs image map for Black Pack-Its<br/>
         <% end %>
-        <% if item.blueMap.empty? %>
-        Still needs image map for Black Pack-Its<br/>
+        <% if item.blueMap.nil? || item.blueMap.empty? %>
+        Still needs image map for Blue Pack-Its<br/>
         <% end %>
-        <% if item.greenMap.empty? %>
+        <% if item.greenMap.nil? || item.greenMap.empty? %>
         Still needs image map for Lapoche<br/>
         <% end %>
-        <% if !item.blackMap.empty? && !item.blueMap.empty? && !item.greenMap.empty? %>
+        <% if !item.blackMap.nil? && !item.blueMap.nil? && !item.greenMap.nil? && !item.blackMap.empty? && !item.blueMap.empty? && !item.greenMap.empty? %>
         All maps filled in!
         <% end %>
     </td>
-    <% if item.blackMap.empty? || item.blueMap.empty? || item.greenMap.empty? %>
-        <td><%= link_to 'Edit', edit_item_path(item) %></td>
-    <% else %>
-        <td><%= link_to 'Show', item %></td>
-    <% end %>
+    <td><%= link_to 'Edit', edit_item_path(item) %></td>
     <td><% if !item.workedOnBy.nil? && !item.workedOnBy.empty? %>
         Being worked on by: <%= item.workedOnBy %>
         <% end %>

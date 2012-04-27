@@ -5,10 +5,11 @@
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
-  <script type="text/javascript" src="./js/jquery-1.7.1.min.js"></script>
-<script type="text/javascript" src="./js/jquery-ui-1.8.18.custom.min.js"></script>
-<script type="text/javascript" src="./js/cookies.js"></script>
+  <script type="text/javascript" src="/js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.8.18.custom.min.js"></script>
+<script type="text/javascript" src="/js/cookies.js"></script>
 <script type="text/javascript">
+var currentUserName = null;
 $(window).load(function () {
 	var existingUserId = readCookie("userIdCookie");
 	if (existingUserId == null || existingUserId == "") {
@@ -42,10 +43,11 @@ function createNewUser() {
 }
 function setUpForUser(userName, userId) {
 	$("#userHeader").html("You are User #" + userId + " : " + userName);
+	$("#userHeader").attr("title", userName);
 	$("#editLink").attr("href", "/users/" + userId + "/edit");
 	$(".initView").hide();
 	$(".mainView").show();
-	repositionBackgrounds();
+	currentUserName = userName;
 }
 function clearUser() {
 	createCookie("userIdCookie", "", 0);

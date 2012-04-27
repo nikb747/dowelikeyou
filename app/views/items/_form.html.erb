@@ -11,7 +11,31 @@ div.field div {
 div.field {
   clear: both;
 }
+textarea:disabled {
+  background-color: #eeeeee;
+}
+input[type=submit] {
+  display: none;
+}
 </style>
+<script type="text/javascript">
+function workOnThisItem(id) {
+  $("input[type=submit]").show();
+  $("input[type=button]").hide();
+  $("textarea").removeAttr("disabled");
+  var ts = new Date().getTime();
+  $.ajax({ 
+    url: "/items/" + id + ".json",
+    type: "PUT",
+    data: {item : {workedOnBy: currentUserName}},
+      dataType: "json"
+    }).done(function(data) {
+      
+  }).fail(function() { 
+    alert("error"); 
+  });
+}
+</script>
 <%= form_for(@item) do |f| %>
   <% if @item.errors.any? %>
     <div id="error_explanation">
@@ -32,29 +56,35 @@ div.field {
     <div>
       <img src="/images/black/<%= @item.key %>.jpg"/>
     </div>
-    <div>Black Pack-Its Map:<br/>
-      <%= f.text_area :blackMap %>
+    <div>Image URL: <input type="text" value="http://dowelikeyou.herokuapp.com/images/black/<%= @item.key %>.jpg"/><br/>
+      Black Pack-Its Map:<br/>
+      <%= f.text_area :blackMap, :disabled => true %>
     </div>
   </div>
   <div class="field">
     <div>
       <img src="/images/blue/<%= @item.key %>.jpg"/>
     </div>
-    <div>Blue Pack-Its Map:<br/>
-      <%= f.text_area :blueMap %>
+    <div>Image URL: <input type="text" value="http://dowelikeyou.herokuapp.com/images/blue/<%= @item.key %>.jpg"/><br/>
+      Blue Pack-Its Map:<br/>
+      <%= f.text_area :blueMap, :disabled => true %>
     </div>
   </div>
   <div class="field">
     <div>
       <img src="/images/green/<%= @item.key %>.jpg"/>
     </div>
-    <div>Lapoche Map:<br/>
-      <%= f.text_area :greenMap %>
+    <div>Image URL: <input type="text" value="http://dowelikeyou.herokuapp.com/images/green/<%= @item.key %>.jpg"/><br/>
+      Lapoche Map:<br/>
+      <%= f.text_area :greenMap, :disabled => true %>
     </div>
   </div>
 </div>
 <div class="right">
+  Online image mapper tool: <a href="http://www.maschek.hu/imagemap/imgmap">http://www.maschek.hu/imagemap/imgmap</a>
   <div class="actions">
+    <input type="button" onclick="workOnThisItem(<%=@item.id%>)" value="Work On This Item"/>
+    <%= f.hidden_field :workedOnBy, :value => nil %>
     <%= f.submit %>
   </div>
 </div>

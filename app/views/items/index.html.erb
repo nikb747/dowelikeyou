@@ -45,7 +45,11 @@ tr.isComplete_true {
         All maps filled in!
         <% end %>
     </td>
-    <td><%= link_to 'Edit', edit_item_path(item) %></td>
+    <td><%= link_to 'Edit', edit_item_path(item) %>
+        <% if item.workedOnBy == "Nik" %>
+            <br/><%= link_to 'Destroy', item, :confirm => 'Are you sure?', :method => :delete %>
+        <% end %>
+    </td>
     <td><% if !item.workedOnBy.nil? && !item.workedOnBy.empty? %>
         Being worked on by: <%= item.workedOnBy %>
         <% end %>

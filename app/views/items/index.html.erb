@@ -1,0 +1,63 @@
+<style type="text/css">
+img {
+    border: none;
+}
+td {
+    height: 121px;
+    border: 1px #cccccc solid;
+    border-spacing: 0;
+}
+tr.isBeingWorkedOn_true {
+    background-color: #ffbbbb;
+}
+tr.isComplete_true {
+    background-color: #bbffbb;
+}
+</style>
+<div id="userHeader" class="mainView">&nbsp;</div>
+<div id="admininstrativeLinks" class="mainView">
+        <a id="editLink" href="/users/?">Set My Name</a>
+        |
+        <a href="javascript:clearUser();">Clear Cookies</a>
+    </div>
+<h1>Listing items that need image maps!</h1>
+
+<table cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @items.each do |item| %>
+  <tr class="isComplete_<%= !item.blackMap.empty? && !item.blueMap.empty? && !item.greenMap.empty? %> isBeingWorkedOn_<%= !item.workedOnBy.nil? && !item.workedOnBy.empty? %>">
+    <td><img src="/images/thumbnails/<%= item.key %>.jpg" height="125" width="110"/></td>
+    <td><% if item.blackMap.empty? %>
+        Still needs image map for Black Pack-Its<br/>
+        <% end %>
+        <% if item.blueMap.empty? %>
+        Still needs image map for Black Pack-Its<br/>
+        <% end %>
+        <% if item.greenMap.empty? %>
+        Still needs image map for Lapoche<br/>
+        <% end %>
+        <% if !item.blackMap.empty? && !item.blueMap.empty? && !item.greenMap.empty? %>
+        All maps filled in!
+        <% end %>
+    </td>
+    <% if item.blackMap.empty? || item.blueMap.empty? || item.greenMap.empty? %>
+        <td><%= link_to 'Edit', edit_item_path(item) %></td>
+    <% else %>
+        <td><%= link_to 'Show', item %></td>
+    <% end %>
+    <td><% if !item.workedOnBy.nil? && !item.workedOnBy.empty? %>
+        Being worked on by: <%= item.workedOnBy %>
+        <% end %>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Item', new_item_path %>

@@ -1,4 +1,6 @@
 Dowelikeyou::Application.routes.draw do
+  resources :items
+
   resources :impressions
 
   resources :users

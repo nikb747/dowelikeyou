@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  key: MyString
+  blackMap: MyString
+  blueMap: MyString
+  greenMap: MyString
+  beingWorkedOn: false
+
+two:
+  key: MyString
+  blackMap: MyString
+  blueMap: MyString
+  greenMap: MyString
+  beingWorkedOn: false

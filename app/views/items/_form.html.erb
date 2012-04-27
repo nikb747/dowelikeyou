@@ -1,0 +1,61 @@
+<style type="text/css">
+div.right {
+  float: left;
+}
+div.left {
+  float: left;
+}
+div.field div {
+  float: left;
+}
+div.field {
+  clear: both;
+}
+</style>
+<%= form_for(@item) do |f| %>
+  <% if @item.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@item.errors.count, "error") %> prohibited this item from being saved:</h2>
+
+      <ul>
+      <% @item.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<div class="left">
+  <div class="field">
+    Sku: <%= @item.key %><br />
+  </div>
+  <div class="field">
+    <div>
+      <img src="/images/black/<%= @item.key %>.jpg"/>
+    </div>
+    <div>Black Pack-Its Map:<br/>
+      <%= f.text_area :blackMap %>
+    </div>
+  </div>
+  <div class="field">
+    <div>
+      <img src="/images/blue/<%= @item.key %>.jpg"/>
+    </div>
+    <div>Blue Pack-Its Map:<br/>
+      <%= f.text_area :blueMap %>
+    </div>
+  </div>
+  <div class="field">
+    <div>
+      <img src="/images/green/<%= @item.key %>.jpg"/>
+    </div>
+    <div>Lapoche Map:<br/>
+      <%= f.text_area :greenMap %>
+    </div>
+  </div>
+</div>
+<div class="right">
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+</div>
+<% end %>

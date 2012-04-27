@@ -10,13 +10,24 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120304010732) do
+ActiveRecord::Schema.define(:version => 20120427034022) do
 
   create_table "impressions", :force => true do |t|
     t.string   "status"
     t.integer  "user_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "items", :force => true do |t|
+    t.string   "key"
+    t.string   "blackMap"
+    t.string   "blueMap"
+    t.string   "greenMap"
+    t.boolean  "beingWorkedOn"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.string   "workedOnBy"
   end
 
   create_table "users", :force => true do |t|

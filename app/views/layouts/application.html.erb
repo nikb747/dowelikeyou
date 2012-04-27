@@ -5,6 +5,53 @@
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+  <script type="text/javascript" src="./js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="./js/jquery-ui-1.8.18.custom.min.js"></script>
+<script type="text/javascript" src="./js/cookies.js"></script>
+<script type="text/javascript">
+$(window).load(function () {
+	var existingUserId = readCookie("userIdCookie");
+	if (existingUserId == null || existingUserId == "") {
+		createNewUser();
+	} else {
+		readUserById(existingUserId);
+	}
+});
+function readUserById(userId) {
+	$.ajax({ 
+		url: "/users/" + userId,
+		type: "GET",
+  		dataType: "json"
+  	}).done(function(data) {
+  		setUpForUser(data.name, data.id);
+  	});
+}
+function createNewUser() {
+	var ts = new Date().getTime();
+	$.ajax({ 
+		url: "/users",
+		type: "POST",
+		data: {user : {name: "Anonymous-" + ts}},
+  		dataType: "json"
+  	}).done(function(data) {
+  		createCookie("userIdCookie", data.id, 365);
+  		setUpForUser(data.name, data.id);
+	}).fail(function() { 
+		alert("error"); 
+	});
+}
+function setUpForUser(userName, userId) {
+	$("#userHeader").html("You are User #" + userId + " : " + userName);
+	$("#editLink").attr("href", "/users/" + userId + "/edit");
+	$(".initView").hide();
+	$(".mainView").show();
+	repositionBackgrounds();
+}
+function clearUser() {
+	createCookie("userIdCookie", "", 0);
+  	return false;
+}
+</script>
 </head>
 <body>
 

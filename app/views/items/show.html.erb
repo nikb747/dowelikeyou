@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Key:</b>
+  <%= @item.key %>
+</p>
+
+<p>
+  <b>Blackmap:</b>
+  <%= @item.blackMap %>
+</p>
+
+<p>
+  <b>Bluemap:</b>
+  <%= @item.blueMap %>
+</p>
+
+<p>
+  <b>Greenmap:</b>
+  <%= @item.greenMap %>
+</p>
+
+<p>
+  <b>Beingworkedon:</b>
+  <%= @item.beingWorkedOn %>
+</p>
+
+
+<%= link_to 'Edit', edit_item_path(@item) %> |
+<%= link_to 'Back', items_path %>
